@@ -29,10 +29,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnMapRe
   }
 
   @Override public void onLocationUpdate(Location location) {
-    String message =
-        location.getLatitude() + ", " + location.getLongitude() + ", " + location.getAccuracy();
-    Log.d(TAG, message);
-    mPresenter.showMarker(location.getLatitude(), location.getLongitude());
+    double latitude = location.getLatitude();
+    double longitude = location.getLongitude();
+    Log.d(TAG, "onLocationUpdate() called with: location = [" + location + "]");
+
+    mPresenter.showCurrentPosition(latitude, longitude);
+    mPresenter.showPath(latitude, longitude);
   }
 
   @Override public Context getContext() {

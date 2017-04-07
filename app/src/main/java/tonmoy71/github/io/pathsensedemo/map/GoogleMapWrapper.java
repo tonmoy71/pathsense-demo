@@ -1,7 +1,7 @@
 package tonmoy71.github.io.pathsensedemo.map;
 
-import android.location.Location;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 /**
@@ -12,9 +12,12 @@ public interface GoogleMapWrapper {
 
   void initialize(GoogleMap googleMap);
 
-  void showMarker(double latitude, double longitude);
+  void showMarker(LatLng position);
 
-  void drawPolyline(List<Location> locationList);
+  void drawPolyline(List<LatLng> locationList);
 
-  void removePolyline();
+  void animateCamera(LatLng position);
+
+  void showCurrentLocationMarker(LatLng position);
+
 }

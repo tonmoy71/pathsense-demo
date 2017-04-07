@@ -1,12 +1,13 @@
 package tonmoy71.github.io.pathsensedemo.map;
 
-import android.location.Location;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.List;
 import tonmoy71.github.io.pathsensedemo.R;
 
@@ -16,35 +17,49 @@ import tonmoy71.github.io.pathsensedemo.R;
 
 public class GoogleMapImpl implements GoogleMapWrapper {
 
-  private static final int ZOOM_LEVEL_STREET = 15;
-
+  private static final float ZOOM_LEVEL_STREET = 15.0f;
   private GoogleMap mMap;
   private Marker mCurrentLocationMarker;
+  private Polyline mPath;
+  private boolean needCameraMovement = true;
 
   @Override public void initialize(GoogleMap googleMap) {
     this.mMap = googleMap;
   }
 
-  @Override public void showMarker(double latitude, double longitude) {
-    removeMarker();
-    LatLng position = new LatLng(latitude, longitude);
+  @Override public void showMarker(LatLng position) {
+    mMap.addMarker(new MarkerOptions().position(position));
+  }
+
+  @Override public void showCurrentLocationMarker(LatLng position) {
+    removeCurrentMarker();
     mCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(position)
         .title("Me!")
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_person_pin_teal_500_24dp)));
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL_STREET));
+    if (needCameraMovement) {
+      animateCamera(position);
+    }
+    needCameraMovement = false;
   }
 
-  private void removeMarker() {
+  private void removeCurrentMarker() {
     if (mCurrentLocationMarker != null) {
       mCurrentLocationMarker.remove();
     }
   }
 
-  @Override public void drawPolyline(List<Location> locationList) {
-
+  @Override public void drawPolyline(List<LatLng> locationList) {
+    removePolyline();
+    mPath = mMap.addPolyline(new PolylineOptions().addAll(locationList));
   }
 
-  @Override public void removePolyline() {
+  @Override public void animateCamera(LatLng position) {
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL_STREET));
+  }
 
+  private void removePolyline() {
+    if (mPath != null) {
+      mPath.remove();
+    }
   }
 }
