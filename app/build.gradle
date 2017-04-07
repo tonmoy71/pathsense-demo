@@ -36,4 +36,7 @@ dependencies {
 
   // Pathsense
   compile(name:'pathsense-android-sdk-bundle-release-2.3.0.18', ext:'aar')
+
+  // Google Map
+  compile 'com.google.android.gms:play-services-maps:10.2.1'
 }

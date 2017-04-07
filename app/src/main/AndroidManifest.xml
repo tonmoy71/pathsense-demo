@@ -9,7 +9,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-    <activity android:name=".map.MapActivity">
+    <activity android:name=".main.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -18,7 +18,11 @@
     </activity>
 
     <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyBwSPM_dUDkGXSGLeAiEwYyoebcnB90dIc" />
 
     <meta-data
