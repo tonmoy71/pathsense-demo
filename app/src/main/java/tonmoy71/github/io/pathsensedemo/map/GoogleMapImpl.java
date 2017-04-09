@@ -21,7 +21,7 @@ public class GoogleMapImpl implements GoogleMapWrapper {
   private GoogleMap mMap;
   private Marker mCurrentLocationMarker;
   private Polyline mPath;
-  private boolean needCameraMovement = true;
+  private boolean mNeedCameraMovement = true;
 
   @Override public void initialize(GoogleMap googleMap) {
     this.mMap = googleMap;
@@ -36,10 +36,10 @@ public class GoogleMapImpl implements GoogleMapWrapper {
     mCurrentLocationMarker = mMap.addMarker(new MarkerOptions().position(position)
         .title("Me!")
         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_person_pin_teal_500_24dp)));
-    if (needCameraMovement) {
+    if (mNeedCameraMovement) {
       animateCamera(position);
     }
-    needCameraMovement = false;
+    mNeedCameraMovement = false;
   }
 
   private void removeCurrentMarker() {

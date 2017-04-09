@@ -32,8 +32,7 @@ public class MainPresenter implements Observer {
   public void startLocationUpdate() {
     mObservable.addObserver(this);
     mLocationApi = PathsenseLocationProviderApi.getInstance(mView.getContext());
-    PathsenseLocationProviderApi api = mLocationApi;
-    api.requestInVehicleLocationUpdates(LOCATION_UPDATE_INTERVAL_SECONDS,
+    mLocationApi.requestInVehicleLocationUpdates(LOCATION_UPDATE_INTERVAL_SECONDS,
         LocationUpdateReceiver.class);
   }
 
