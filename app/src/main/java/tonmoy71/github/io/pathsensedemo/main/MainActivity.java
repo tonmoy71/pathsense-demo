@@ -8,24 +8,25 @@ import android.util.Log;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import javax.inject.Inject;
+import tonmoy71.github.io.pathsensedemo.PathsenseApp;
 import tonmoy71.github.io.pathsensedemo.R;
 
 public class MainActivity extends AppCompatActivity implements MainView, OnMapReadyCallback {
 
   private static final String TAG = MainActivity.class.getSimpleName();
-  private MainPresenter mPresenter;
+  @Inject MainPresenter mPresenter;
+  @Inject Context mContext;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_map);
-
-    // TODO: 07-Apr-17 Inject dependency
-    mPresenter = new MainPresenter(this);
-    mPresenter.startLocationUpdate();
-
+    ((PathsenseApp) getApplication()).getComponent().inject(this);
     SupportMapFragment mapFragment =
         (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
+    mPresenter.initializeView(this);
+    mPresenter.startLocationUpdate();
   }
 
   @Override public void onLocationUpdate(Location location) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnMapRe
   }
 
   @Override public Context getContext() {
-    return getApplicationContext();
+    return mContext;
   }
 
   @Override protected void onPause() {

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.inject.Inject;
 import tonmoy71.github.io.pathsensedemo.location.LocationObservable;
 import tonmoy71.github.io.pathsensedemo.location.LocationUpdateReceiver;
-import tonmoy71.github.io.pathsensedemo.map.GoogleMapImpl;
 import tonmoy71.github.io.pathsensedemo.map.GoogleMapWrapper;
 
 /**
@@ -19,13 +19,17 @@ import tonmoy71.github.io.pathsensedemo.map.GoogleMapWrapper;
 public class MainPresenter implements Observer {
 
   private static final int LOCATION_UPDATE_INTERVAL_SECONDS = 60;
+  private GoogleMapWrapper mMapWrapper;
   private LocationObservable mObservable = LocationObservable.getInstance();
   private MainView mView;
   private PathsenseLocationProviderApi mLocationApi;
-  private GoogleMapWrapper mMapWrapper = new GoogleMapImpl();  // TODO: 07-Apr-17 Inject dependency
   private List<LatLng> mPointList = new ArrayList<>();
 
-  public MainPresenter(MainView mView) {
+  @Inject public MainPresenter(GoogleMapWrapper wrapper) {
+    this.mMapWrapper = wrapper;
+  }
+
+  public void initializeView(MainView mView) {
     this.mView = mView;
   }
 
